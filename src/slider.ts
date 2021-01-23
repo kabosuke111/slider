@@ -1,5 +1,4 @@
 //typescript
-import * as data from "./data/data.json";
 
 interface SliderData {
     itemMargin: number,
