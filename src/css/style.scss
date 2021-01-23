@@ -1,0 +1,95 @@
+@charset "urf-8";
+
+*,*::before, *::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-size: 1.4rem;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+a, button {
+	outline: none;
+}
+
+li {
+	list-style: none;
+}
+
+@mixin box($mw: none, $w: 100%, $mh: none, $h: auto, $margin: 0 auto, $d: block) {
+	@if $d != null {display: block;}
+	@if $margin != null {margin: $margin;} @else {margin: 0 auto;}
+	@if $w != null {width: $w;} @else {width: 100%;}
+	@if $mw != null {max-width: $mw;}
+	@if $h != null {height: $h;}
+	@if $mh != null {max-height: $mh;}
+};
+
+.slider {
+	@include box(900px,null, null, null, null, null);
+	overflow: hidden;
+	position: relative;
+	
+	&_button {
+		@include box(null,50px, null,100%,null,null);
+		align-items: center;
+		position: absolute;
+		background: rgba(30,30,30,0.5);
+		z-index: 2;
+		color: #fff;
+		border: none;
+		-webkit-appearance: none;
+		cursor: pointer;
+		
+		&.button_pre {
+			left: 0;
+		}
+		
+		&.button_next {
+			right: 0;
+		}
+	}
+	
+	&_box {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		position: relative;
+		left: 0;
+		transition: 0.5s;
+	}
+	
+	&_group {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	&_item {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+	}
+
+	&_image {
+		
+		&_item {
+			width: 100%;
+		}
+		
+		&_caption {
+			font-size: 1.5rem;
+		}
+	}	
+}
