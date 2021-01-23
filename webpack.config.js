@@ -3,7 +3,7 @@ module.exports = {
 	entry: './src/index.ts',
 	output: {
 		path: `${__dirname}/dist`,
-		filename: "main.js"
+		filename: "slider.js"
 	},
 	mode: "production",
 	devServer: {

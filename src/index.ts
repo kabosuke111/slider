@@ -1,23 +1,19 @@
 //typescript
 import "./css/style.scss";
-import * as data from "./data/data.json";
 import { slider } from "./slider";
 
-export interface DomData {
-    itemMargin: number,
-    itemWidth: number,
-    dataLength: number,
-}
+//================================================================
+//状況によって記述の必要あり ↓↓↓↓
+
+import * as data from "./data/data.json";//挿入する画像のデータ from以降のみ記述
+const dataImage = data.imageData;//画像のデータを {配列名[{title:"",url:""}]} の形で収録
+
+//　↑↑↑↑　ここまで
+//================================================================
 
 interface BtnText {
     prev: string;
     next: string;
-}
-
-const dom_data: DomData = {
-    itemMargin: 10,
-    itemWidth: 200,
-    dataLength: 0,
 }
 
 const btnText: BtnText = {
@@ -33,7 +29,7 @@ interface ListData {
     frag: DocumentFragment | null;
     figcaptionInner: Text;
     list: HTMLElement & {className: string;} | null;
-    link: HTMLElement & {className: string;} | null;
+    link: HTMLElement & {className: string;href: string} | HTMLElement & {className: string;} | null;
     figcaption: HTMLElement & {className: string;} | null;
     fig: HTMLElement & {className: string;} | null;
     image: HTMLElement & {className: string;src: string} | null;
@@ -46,7 +42,9 @@ interface ListParts {
 }
 
 (function(){
-    const dataImage = data.imageData;
+    const sliderParent = document.getElementById('slider');
+    const need_link = sliderParent.dataset.needlink;
+    const link_tag_name = need_link == "yes" ? 'a' : 'div';
     const list_data: ListData = {main: null,mainFrag: null,frag: null,div: null,ul: null,figcaptionInner: null,list: null,link: null,figcaption: null,fig: null,image: null};
     const list_parts: ListParts = {frag: null, btnNext: null, btnPrev: null};
     list_data.div = Object.assign(document.createElement('div'), {className: `slider_box`});
@@ -57,15 +55,16 @@ interface ListParts {
     
     for(let j = 0; j < 2; j++){
         if(j === 0){
-            list_data.ul = Object.assign(document.createElement('ul'), {className: `slider_group slider_group_origin`});
+            list_data.ul = Object.assign(document.createElement('ul'), {className: `slider_group slider_group-origin`});
         } else {
-            list_data.ul = Object.assign(document.createElement('ul'), {className: `slider_group slider_group_copy`});
+            list_data.ul = Object.assign(document.createElement('ul'), {className: `slider_group slider_group-copy`});
         }
 
         for (let key of dataImage) {
             list_data.figcaptionInner = document.createTextNode(key.title);
             list_data.list = Object.assign(document.createElement('li'), {className: 'slider_item'});
-            list_data.link = Object.assign(document.createElement('a'), {className: 'slider_link'});
+            list_data.link = Object.assign(document.createElement(link_tag_name), {className: 'slider_link'});
+            if(need_link === 'yes') {list_data.link.setAttribute('href', key.link)};
             list_data.fig = Object.assign(document.createElement('figure'), {className: 'slider_image_group'});
             list_data.image = Object.assign(document.createElement('img'), {className: 'slider_image_item', src: key.url, alt: key.title});
             list_data.figcaption = Object.assign(document.createElement('figcaption'), {className: 'slider_image_caption'});
@@ -90,6 +89,6 @@ interface ListParts {
     list_data.main.appendChild(list_parts.frag);
     list_data.div.appendChild(list_data.mainFrag);
     list_data.main.appendChild(list_data.div);
-    dom_data.dataLength = dataImage.length;
-    slider(dom_data);
+
+    slider();
 })();

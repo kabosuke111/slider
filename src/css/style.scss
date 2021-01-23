@@ -74,12 +74,19 @@ li {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		position: relative;
+		left: 0%;
 	}
 
 	&_item {
 		display: flex;
 		align-items: center;
 		flex-shrink: 0;
+	}
+	
+	&_link {
+		display: block;
+		width: 100%;
 	}
 
 	&_image {
